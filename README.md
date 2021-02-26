@@ -1,11 +1,11 @@
 # nba-player-api
 App that displays NBA player stats through an api
 
-To-do/Improvements: 
+## To-do/Improvements: 
 
-Have dropdown that searched json file for user searched player names
+* Have dropdown that searches json file for user searched player names
 
-prevent mulitple same names from showing up
+* prevent mulitple same names from showing up
 
-clean up UI
+* clean up UI
 
