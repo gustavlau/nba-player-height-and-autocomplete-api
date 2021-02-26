@@ -1,0 +1,61 @@
+body {
+    background-color:#8ea8c3;
+}
+
+.frame {
+    
+    width:600px;
+    height: 600px;
+    border-radius: 25px;
+    margin: 50px auto 0 auto;
+    background-color:#406e8e;
+    padding: 20px;
+    color: #161925;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+    'search svg height'
+    'search-result weights height'
+    'search-result weights height'
+}
+
+.frame h1{
+    text-align: center;
+}
+#height-svg {
+    grid-area: svg;
+    
+}
+
+.listed-heights-od {
+    display:flex;
+    font-size: 20px;
+}
+
+#player-search {
+    grid-area: search;
+}
+
+#player-search-result{
+    grid-area search-result;
+    font-size: 15px;
+}
+
+.listed-heights-od {
+    display: flex;
+    align-items:center;
+    grid-area: height;
+}
+
+.listed-weight-od{
+    grid-area: weights;
+    display: flex;    
+    font-size: 15px;
+    align-items: center;
+    justify-content: center;
+}
