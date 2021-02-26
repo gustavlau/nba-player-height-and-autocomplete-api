@@ -5,7 +5,7 @@ body {
 .frame {
     
     width:600px;
-    height: 600px;
+    height: auto;
     border-radius: 25px;
     margin: 50px auto 0 auto;
     background-color:#406e8e;
@@ -20,15 +20,16 @@ body {
     grid-template-rows: auto 1fr auto;
     grid-template-areas:
     'search svg height'
-    'search-result weights height'
+    'search-result svg height'
     'search-result weights height'
 }
 
-.frame h1{
+/* .frame h1 {
     text-align: center;
-}
-#height-svg {
+} */
+#player-main {
     grid-area: svg;
+    z-index:5;
     
 }
 
