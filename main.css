@@ -60,3 +60,8 @@ body {
     align-items: center;
     justify-content: center;
 }
+
+
+.searched-players:hover{
+    cursor:pointer;
+}
