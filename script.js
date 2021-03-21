@@ -46,27 +46,29 @@ async function getPlayerHeight(event){
         dataSearch.innerHTML = '';
     }
     outputPlayerNames(searchedNames);
+    
 }
 
 let outputPlayerNames = searchedNames =>{
-    if(searchedNames.length>0){    
-        const outputHtml=searchedNames.map(name =>{
-            let playerArr = name.firstName+" "+name.lastName;
-            playerArr
-            playerArr.addEventListener("click",()=> console.log("clicked on"+playerArr));
-            return playerArr;
+    if(searchedNames.length>0){
+        const outputHtml=searchedNames.map((name) =>{
+            return '<p class="searched-players">'+name.firstName+" "+name.lastName+" - "+name.heightFeet+"'"+name.heightInches+"\""+'<p>'})
+            const finalOutput=outputHtml.join('');        
+            // const outputHtml = searchedNames;                
+            // console.log(outputHtml+"OUTPUTHTML");
+            console.log(searchedNames.length);
+            console.log(searchedNames);
+            document.querySelector("#player-search-result").innerHTML=finalOutput;            
+            let pVar=document.querySelectorAll(".searched-players");
+            pVar.forEach((ele,index)=>{
+            ele.addEventListener(`click`,function(){
+                console.log("clicked"+" " + searchedNames[index].firstName+" "+searchedNames[index].lastName);
+            });
         });
-
-        // const outputHtml = searchedNames;
-
-        console.log(outputHtml);
-        document.querySelector("#player-search-result").innerHTML=outputHtml;
     }   
 }
 
 document.querySelector('input[name="name"]').addEventListener('input', getPlayerHeight);
-
-
 
     
     // for(i=0; i<data.data.length; i++){
