@@ -22,12 +22,7 @@ let playerWeight = document.querySelector(".weight");
 
 async function getPlayerHeight(event){
     let dataSearch = document.querySelector("#player-search-result");    
-    
-    // while(dataSearch.firstChild){ //clears old search area when new search is made
-    //     dataSearch.removeChild(dataSearch.firstChild);               
-    // }
-
-    event.preventDefault(); //prevent 'submit' default action
+        event.preventDefault(); //prevent 'submit' default action
 
     //Grabbing JSON file
     const searchBox = document.querySelector('input[name="name"]').value;
@@ -40,7 +35,8 @@ async function getPlayerHeight(event){
         const regex = new RegExp(`^${searchBox}`,'gi');//Uses the searchbox name as the regex filter
         return playerName.firstName.match(regex) || playerName.lastName.match(regex);
     });
-
+    
+    //empty results if no characters present
     if(searchBox.length===0){
         searchedNames = [];
         dataSearch.innerHTML = '';
@@ -50,27 +46,45 @@ async function getPlayerHeight(event){
 }
 
 let outputPlayerNames = searchedNames =>{
+    const searchBox = document.querySelector('input[name="name"]').value;
     if(searchedNames.length>0){
         const outputHtml=searchedNames.map((name) =>{
-            return '<p class="searched-players">'+name.firstName+" "+name.lastName+" - "+name.heightFeet+"'"+name.heightInches+"\""+'<p>'})
-            const finalOutput=outputHtml.join('');        
-            // const outputHtml = searchedNames;                
-            // console.log(outputHtml+"OUTPUTHTML");
-            console.log(searchedNames.length);
-            console.log(searchedNames);
-            document.querySelector("#player-search-result").innerHTML=finalOutput;            
+            let playerFirstandLast = name.firstName+" "+name.lastName;
+            let playerFirstandLastBold = boldSearch(playerFirstandLast,searchBox);
+            if(name.heightFeet!=="-"){ //prevents return of players with empty height data
+            return '<p class="searched-players">'+playerFirstandLastBold+" - "+name.heightFeet+"'"+name.heightInches+"\""+'<p>'}})
+            const finalOutput=outputHtml.join('');
+            document.querySelector("#player-search-result").innerHTML=finalOutput;    
             let pVar=document.querySelectorAll(".searched-players");
-            pVar.forEach((ele,index)=>{
+            pVar.forEach((ele,index)=>{ //adds event listeners to all the names in finalOutput
             ele.addEventListener(`click`,function(){
                 console.log("clicked"+" " + searchedNames[index].firstName+" "+searchedNames[index].lastName);
+                console.log(parseInt(searchedNames[index].heightFeet)+parseInt(searchedNames[index].heightInches));
+                animateSvg(parseInt(searchedNames[index].heightFeet),parseInt(searchedNames[index].heightInches));
             });
         });
     }   
 }
 
+//Bolds the searched characters, regex makes it case insensitive and returns the original capitalization of the strings
+function boldSearch(str, search){
+    let caseInsensitiveRegex = new RegExp("("+search+")", "gi");
+    return str.replace(caseInsensitiveRegex,"<b>$1</b>");
+}
+
 document.querySelector('input[name="name"]').addEventListener('input', getPlayerHeight);
 
-    
+function animateSvg (heightFeet,heightInches){
+    let feetToInches=(heightFeet*12+(heightInches))/72;
+    console.log(feetToInches);
+    // let convertYScale = (feetToInches-(2*feetToInches))*7.5
+    gsap.to("#Layer_1",{duration: 1, ease:"none", transformOrigin:"left bottom", scale:feetToInches});
+    playerHeightFeet.innerText = heightFeet;
+    playerHeightInches.innerText = heightInches;
+}
+
+let number = "9234"
+
     // for(i=0; i<data.data.length; i++){
     //     let dataSearchCreate = document.createElement("p");
     //     dataSearch.appendChild(dataSearchCreate);
