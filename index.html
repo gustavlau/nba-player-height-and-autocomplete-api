@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/src/odometer-theme-minimal.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="main.css" rel="stylesheet">
 
 </head>
@@ -15,8 +16,8 @@
     <div class="grid">
     <form id="player-search">
         <label for="player name">Search Name:</label>
-        <input type="text" name="name">
-        <input type="submit">
+        <input type="text" name="name" autocomplete="off">
+        <!-- <a class="waves-light btn"><input type="submit"></a> -->
     </form>
     <h2 id="player-search-result"></h2>
     
@@ -45,6 +46,7 @@
           <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
           <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/EasePack.min.js"></script>
           <script src="/src/odometer.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
           <script src="script.js"></script>
 </body>
 </html>
