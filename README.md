@@ -1,11 +1,7 @@
 # nba-player-api
-App that displays NBA player stats through an api
+App that provides a visual representation of how the user would look standing next to an NBA player.
 
 ## To-do/Improvements: 
-
-* Have dropdown that searches json file for user searched player names
-
-* prevent mulitple same names from showing up
 
 * clean up UI
 
