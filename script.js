@@ -33,26 +33,32 @@ async function getPlayerHeight(event){
 
     let searchedNames = nbaOnly.filter((playerName)=>{
         const regex = new RegExp(`^${searchBox}`,'gi');//Uses the searchbox name as the regex filter
-        return playerName.firstName.match(regex) || playerName.lastName.match(regex);
+        return playerName.firstName.match(regex) || playerName.lastName.match(regex); //Returns array that contains names that has user's search
     });
     
     //empty results if no characters present
     if(searchBox.length===0){
         searchedNames = [];
         dataSearch.innerHTML = '';
+        playerHeightFeet.innerText="6";
+        playerHeightInches.innerText="0";
+        animateSvg(6,0); // resets svg animation to the default 6 feet
     }
     outputPlayerNames(searchedNames);
     
 }
 
+//Main search function that displays the searched player and bolds the searched characters
 let outputPlayerNames = searchedNames =>{
     const searchBox = document.querySelector('input[name="name"]').value;
     if(searchedNames.length>0){
         const outputHtml=searchedNames.map((name) =>{
             let playerFirstandLast = name.firstName+" "+name.lastName;
-            let playerFirstandLastBold = boldSearch(playerFirstandLast,searchBox);
+            let playerFirstandLastBold = boldSearch(playerFirstandLast,searchBox); //Applies the boldSearch function that contains the regex for case insensitivity and reutnrs bolded characters
             if(name.heightFeet!=="-"){ //prevents return of players with empty height data
-            return '<p class="searched-players">'+playerFirstandLastBold+" - "+name.heightFeet+"'"+name.heightInches+"\""+'<p>'}})
+                return '<a class="searched-players collection-item">'+playerFirstandLastBold+" - "+name.heightFeet+"'"+name.heightInches+"\""+'<a>'
+            }
+        });
             const finalOutput=outputHtml.join('');
             document.querySelector("#player-search-result").innerHTML=finalOutput;    
             let pVar=document.querySelectorAll(".searched-players");
@@ -74,16 +80,14 @@ function boldSearch(str, search){
 
 document.querySelector('input[name="name"]').addEventListener('input', getPlayerHeight);
 
+//Animates the svg based on the player height data. Uses GSAP.
 function animateSvg (heightFeet,heightInches){
     let feetToInches=(heightFeet*12+(heightInches))/72;
     console.log(feetToInches);
-    // let convertYScale = (feetToInches-(2*feetToInches))*7.5
     gsap.to("#Layer_1",{duration: 1, ease:"none", transformOrigin:"left bottom", scale:feetToInches});
     playerHeightFeet.innerText = heightFeet;
     playerHeightInches.innerText = heightInches;
 }
-
-let number = "9234"
 
     // for(i=0; i<data.data.length; i++){
     //     let dataSearchCreate = document.createElement("p");
@@ -120,6 +124,12 @@ let number = "9234"
 document.querySelector("#player-search").addEventListener("submit", getPlayerHeight);
 
 window.odometerOptions = {
-    animation: 'count',
-    format: 'dd'
+    // animation: 'count',
+    format: 'dd',
+    duration: 1000
 };
+
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.tooltipped');
+    var instances = M.Tooltip.init(elems, options);
+});
