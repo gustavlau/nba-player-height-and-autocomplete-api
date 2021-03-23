@@ -42,12 +42,21 @@
               <div class="odometer inches">0</div><p>"</p>
             
           </container>
-          <a class="btn tooltipped" data-position="bottom" data-tooltip="I am a tooltip">Who dis?</a>
+          <button data-target="modal1" class="btn modal-trigger ">Who Dis?</button>
           <!-- <container class="listed-weight-od">
             <div class="odometer weight">180</div><p>lbs</p>
           </container> -->
         </div>
-        </div>
+        
+          <div id="modal1" class="modal">
+            <div class="modal-content">
+              <h4 id="modal-player-name">Modal Header</h4>
+              <p>A bunch of text</p>
+            </div>
+            <div class="modal-footer">
+              <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+          </div>
           <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
           <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/EasePack.min.js"></script>
           <script src="/src/odometer.js"></script>
