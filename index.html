@@ -12,14 +12,17 @@
 </head>
 <body>
   <div class="frame">
-    <h1>NBA Player Heights</h1>
+    <div  class="title">
+      <h1>NBA Player Height</h1>
+      <p>Search for an active NBA player below with either their first or last name.</p>
+    </div>
     <div class="grid">
     <form id="player-search">
-        <label for="player name">Search Name:</label>
+        <label for="player name">Player Name:</label>
         <input type="text" name="name" autocomplete="off">
         <!-- <a class="waves-light btn"><input type="submit"></a> -->
     </form>
-    <h2 id="player-search-result"></h2>
+    <div id="player-search-result" class="collection"></div>
     
     <div id="player-main">
 
@@ -35,12 +38,14 @@
       
       </div>         
           <container class="listed-heights-od">
-            <div class="odometer feet">6</div><p>'</p>
-            <div class="odometer inches">0</div><p>"</p>
+              <div class="odometer feet">6</div><p>'</p>
+              <div class="odometer inches">0</div><p>"</p>
+            
           </container>
-          <container class="listed-weight-od">
+          <a class="btn tooltipped" data-position="bottom" data-tooltip="I am a tooltip">Who dis?</a>
+          <!-- <container class="listed-weight-od">
             <div class="odometer weight">180</div><p>lbs</p>
-          </container>
+          </container> -->
         </div>
         </div>
           <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
