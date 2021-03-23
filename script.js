@@ -60,16 +60,18 @@ let outputPlayerNames = searchedNames =>{
             }
         });
             const finalOutput=outputHtml.join('');
-            document.querySelector("#player-search-result").innerHTML=finalOutput;    
+            document.querySelector("#player-search-result").innerHTML=finalOutput;
+            
             let pVar=document.querySelectorAll(".searched-players");
             pVar.forEach((ele,index)=>{ //adds event listeners to all the names in finalOutput
             ele.addEventListener(`click`,function(){
                 console.log("clicked"+" " + searchedNames[index].firstName+" "+searchedNames[index].lastName);
                 console.log(parseInt(searchedNames[index].heightFeet)+parseInt(searchedNames[index].heightInches));
                 animateSvg(parseInt(searchedNames[index].heightFeet),parseInt(searchedNames[index].heightInches));
+                document.getElementById("modal-player-name").innerText=searchedNames[index].firstName+" "+searchedNames[index].lastName;
             });
         });
-    }   
+    }
 }
 
 //Bolds the searched characters, regex makes it case insensitive and returns the original capitalization of the strings
@@ -129,7 +131,11 @@ window.odometerOptions = {
     duration: 1000
 };
 
-document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('.tooltipped');
-    var instances = M.Tooltip.init(elems, options);
-});
+
+var elems = document.querySelectorAll('.modal');
+var options = {
+    startingTop:"10%"
+}
+
+var instances = M.Modal.init(elems, options);
+// elems.addEventListener('click', ()=> instances.open());
