@@ -83,9 +83,6 @@ label {
     justify-content: center;
 }
 
-.searched-players{
-
-}
 
 .searched-players:hover{
     cursor:pointer;
@@ -96,7 +93,18 @@ label {
     white-space: nowrap;
 }
 
+.searched-players-flex{
+    display: flex;
+    justify-content: space-between;
+}
 
+.material-tooltip{
+    width:150px;
+    height:150px;
+    display:flex;
+    justify-content: center;
+    border-radius: 5%;
+}
 @media only screen and (min-width: 600px) {
     .grid {
         display: grid;
