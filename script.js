@@ -43,6 +43,7 @@ async function getPlayerHeight(event){
         playerHeightFeet.innerText="6";
         playerHeightInches.innerText="0";
         animateSvg(6,0); // resets svg animation to the default 6 feet
+        document.querySelector(".modal-trigger").classList.add("disabled");
     }
     outputPlayerNames(searchedNames);
     
@@ -51,7 +52,7 @@ async function getPlayerHeight(event){
 //Main search function that displays the searched player and bolds the searched characters
 let outputPlayerNames = searchedNames =>{
     const searchBox = document.querySelector('input[name="name"]').value;
-    if(searchedNames.length>0){
+    if(searchedNames.length>0){        
         const outputHtml=searchedNames.map((name) =>{
             let playerFirstandLast = name.firstName+" "+name.lastName;
             let playerFirstandLastBold = boldSearch(playerFirstandLast,searchBox); //Applies the boldSearch function that contains the regex for case insensitivity and reutnrs bolded characters
@@ -59,28 +60,42 @@ let outputPlayerNames = searchedNames =>{
                 return '<a class="searched-players collection-item">'+playerFirstandLastBold+" - "+name.heightFeet+"'"+name.heightInches+"\""+'<a>'
             }
         });
-            const finalOutput=outputHtml.join('');
-            document.querySelector("#player-search-result").innerHTML=finalOutput;
-            
-            let pVar=document.querySelectorAll(".searched-players");
-            pVar.forEach((ele,index)=>{ //adds event listeners to all the names in finalOutput
-            ele.addEventListener(`click`,function(){
-                console.log("clicked"+" " + searchedNames[index].firstName+" "+searchedNames[index].lastName);
-                console.log(parseInt(searchedNames[index].heightFeet)+parseInt(searchedNames[index].heightInches));
-                animateSvg(parseInt(searchedNames[index].heightFeet),parseInt(searchedNames[index].heightInches));
-                document.getElementById("modal-player-name").innerText=searchedNames[index].firstName+" "+searchedNames[index].lastName;
-            });
+        const finalOutput=outputHtml.join(''); //uses the , as selector in the array to turn into string
+
+        document.querySelector("#player-search-result").innerHTML=finalOutput;            
+        let pVar=document.querySelectorAll(".searched-players");
+        pVar.forEach((ele,index)=>{ //adds event listeners to all the names in finalOutput
+            ele.addEventListener(`click`,()=>{clickedNames(searchedNames[index])})
         });
     }
 }
 
+//Applies info into the info button to get more player information
+function clickedNames (searchedNames){
+    document.querySelector(".modal-trigger").classList.remove("disabled");
+    console.log("clicked"+" " + searchedNames.firstName+" "+searchedNames.lastName);
+    console.log(parseInt(searchedNames.heightFeet)+parseInt(searchedNames.heightInches));
+    animateSvg(parseInt(searchedNames.heightFeet),parseInt(searchedNames.heightInches));//converts the string height value to integer so it can math properly
+    document.getElementById("modal-player-name").innerText=searchedNames.firstName+" "+searchedNames.lastName;
+}
+
+
+
 //Bolds the searched characters, regex makes it case insensitive and returns the original capitalization of the strings
 function boldSearch(str, search){
     let caseInsensitiveRegex = new RegExp("("+search+")", "gi");
-    return str.replace(caseInsensitiveRegex,"<b>$1</b>");
+    return str.replace(caseInsensitiveRegex,"<b>$1</b>");``
 }
 
 document.querySelector('input[name="name"]').addEventListener('input', getPlayerHeight);
+
+//Disables player info button when user backspace or delete in search box
+document.querySelector('input[name="name"]').addEventListener('keydown', (event)=>{
+    const {key} = event;
+    if(key=== "Backspace" || key === "Delete"){
+        document.querySelector(".modal-trigger").classList.add("disabled");
+    }
+});
 
 //Animates the svg based on the player height data. Uses GSAP.
 function animateSvg (heightFeet,heightInches){
