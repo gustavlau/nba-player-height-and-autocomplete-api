@@ -21,8 +21,16 @@ let playerHeightInches = document.querySelector(".inches");
 let playerWeight = document.querySelector(".weight");
 
 async function getPlayerHeight(event){
+
+
+    //destroys the leftover tooltip elements that are created by Materialize otherwise they will all build up.
+    let removeTooltips = document.querySelectorAll(".material-tooltip");
+        removeTooltips.forEach((ele)=>{
+            ele.remove();
+        })
+
     let dataSearch = document.querySelector("#player-search-result");    
-        event.preventDefault(); //prevent 'submit' default action
+    event.preventDefault(); //prevent 'submit' default action
 
     //Grabbing JSON file
     const searchBox = document.querySelector('input[name="name"]').value;
@@ -44,6 +52,7 @@ async function getPlayerHeight(event){
         playerHeightInches.innerText="0";
         animateSvg(6,0); // resets svg animation to the default 6 feet
         document.querySelector(".modal-trigger").classList.add("disabled");
+        
     }
     outputPlayerNames(searchedNames);
     
@@ -57,29 +66,63 @@ let outputPlayerNames = searchedNames =>{
             let playerFirstandLast = name.firstName+" "+name.lastName;
             let playerFirstandLastBold = boldSearch(playerFirstandLast,searchBox); //Applies the boldSearch function that contains the regex for case insensitivity and reutnrs bolded characters
             if(name.heightFeet!=="-"){ //prevents return of players with empty height data
-                return '<a class="searched-players collection-item">'+playerFirstandLastBold+" - "+name.heightFeet+"'"+name.heightInches+"\""+'<a>'
+                return '<a class="searched-players collection-item" data-position="right">'+playerFirstandLastBold+" - "+name.heightFeet+"'"+name.heightInches+"\""+'</a>'
             }
         });
-        const finalOutput=outputHtml.join(''); //uses the , as selector in the array to turn into string
 
-        document.querySelector("#player-search-result").innerHTML=finalOutput;            
-        let pVar=document.querySelectorAll(".searched-players");
-        pVar.forEach((ele,index)=>{ //adds event listeners to all the names in finalOutput
+       
+
+        const finalOutput=outputHtml.join(''); //uses the , as selector in the array to turn into string
+        console.log(searchedNames);
+        
+        document.querySelector("#player-search-result").innerHTML=finalOutput;
+        // let playerHeadshot = document.createElement('img');
+            
+        let playerVar=document.querySelectorAll(".searched-players");
+        playerVar.forEach((ele,index)=>{ //adds event listeners to all the names in finalOutput            
+           
             ele.addEventListener(`click`,()=>{clickedNames(searchedNames[index])})
+            
+
+            //Adds mouse over event listeners that add classes that allow player pictures. This prevents the continuous loading of every player's picture which can be very slow.
+            ele.addEventListener('mouseenter', ()=>{
+                ele.classList.toggle('tooltipped')
+                ele.id="unique-player";
+                createTooltip(searchedNames[index].personId); //passes the hovered over players id info so proper image is displayed                
+            });
+            ele.addEventListener('mouseleave', ()=>{
+                ele.classList.toggle('tooltipped');
+                ele.removeAttribute('id');
+            });
         });
     }
 }
 
 //Applies info into the info button to get more player information
 function clickedNames (searchedNames){
+    let playerFirstandLast = searchedNames.firstName+" "+searchedNames.lastName;
     document.querySelector(".modal-trigger").classList.remove("disabled");
-    console.log("clicked"+" " + searchedNames.firstName+" "+searchedNames.lastName);
+    console.log("clicked"+" " + playerFirstandLast);
     console.log(parseInt(searchedNames.heightFeet)+parseInt(searchedNames.heightInches));
     animateSvg(parseInt(searchedNames.heightFeet),parseInt(searchedNames.heightInches));//converts the string height value to integer so it can math properly
-    document.getElementById("modal-player-name").innerText=searchedNames.firstName+" "+searchedNames.lastName;
+    document.getElementById("modal-player-name").innerText=playerFirstandLast;
+    document.getElementById("modal-player-info").innerText=playerFirstandLast+" is a "+""+searchedNames.heightFeet+"'"+searchedNames.heightInches+"\""+" "+searchedNames.weightPounds+" lbs "+searchedNames.teamSitesOnly.posFull+".";
+    document.getElementById("modal-player-picture").src=`https://ak-static.cms.nba.com/wp-content/uploads/silos/nba/latest/440x700/${searchedNames.personId}.png`
 }
 
 
+//Function creates the player's tooltip element only when hovered over.
+function createTooltip(playerId){
+    var elems = document.querySelectorAll('.tooltipped');
+    var options={
+        enterDelay: 0,
+        html:`<div class="player-hover-image-container"><img class="player-hover-image" src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${playerId}.png"></div>`
+    };
+    var instances = M.Tooltip.init(elems, options);
+  
+    var instance = M.Tooltip.getInstance(document.getElementById("unique-player"));
+    instance.open();
+  }
 
 //Bolds the searched characters, regex makes it case insensitive and returns the original capitalization of the strings
 function boldSearch(str, search){
@@ -87,7 +130,7 @@ function boldSearch(str, search){
     return str.replace(caseInsensitiveRegex,"<b>$1</b>");``
 }
 
-document.querySelector('input[name="name"]').addEventListener('input', getPlayerHeight);
+
 
 //Disables player info button when user backspace or delete in search box
 document.querySelector('input[name="name"]').addEventListener('keydown', (event)=>{
@@ -106,6 +149,23 @@ function animateSvg (heightFeet,heightInches){
     playerHeightInches.innerText = heightInches;
 }
 
+window.odometerOptions = {
+    // animation: 'count',
+    format: 'dd',
+    duration: 1000
+};
+
+
+var modalElems = document.querySelectorAll('.modal');
+var options = {
+    startingTop:"2%"
+}
+var instance = M.Modal.init(modalElems, options);
+
+//"main" listener that runs the filter when user starts typing
+document.querySelector('input[name="name"]').addEventListener('input', getPlayerHeight);
+
+    //Attempting to animate different parts of SVG...failure
     // for(i=0; i<data.data.length; i++){
     //     let dataSearchCreate = document.createElement("p");
     //     dataSearch.appendChild(dataSearchCreate);
@@ -135,22 +195,4 @@ function animateSvg (heightFeet,heightInches){
     //         dataSearchCreate.innerText= "There is no height data for " + data.data[i].first_name + " " + data.data[i].last_name
     //     }
 
-    // }    
-
-
-document.querySelector("#player-search").addEventListener("submit", getPlayerHeight);
-
-window.odometerOptions = {
-    // animation: 'count',
-    format: 'dd',
-    duration: 1000
-};
-
-
-var elems = document.querySelectorAll('.modal');
-var options = {
-    startingTop:"10%"
-}
-
-var instances = M.Modal.init(elems, options);
-// elems.addEventListener('click', ()=> instances.open());
+    // } 
