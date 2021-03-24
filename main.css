@@ -21,27 +21,27 @@ body {
 
 .grid {
     display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: 100px auto auto auto;
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: auto auto auto auto;
     grid-template-areas:
-    'search svg'
-    'search-result svg'
-    'search-result height'
-    'search-result .'
+    'svg height'
+    '. player-info'
+    'search search'
+    'search-result search-result'
 }
 
 /* .frame h1 {
     text-align: center;
 } */
 
-label{
+label {
     color: #01579b ;
 }
 
 #player-main {
     grid-area: svg;
-    z-index:5;    
-    padding: 0 50px;
+    z-index:5;
+    /* margin-bottom:100px;*/
     display: flex;
     justify-content: center;
 }
@@ -53,14 +53,19 @@ label{
 
 #player-search {
     grid-area: search;
-    width: 80%;
+    padding-top:20px;
+    display:flex;
+    align-items:flex-end;
 }
 
 #player-search-result{
     grid-area: search-result;
-    font-size: 15px;
+    font-size: 12px;
     border:none;
-    width: 80%;
+}
+
+.collection .collection-item {
+    padding:5px 10px;
 }
 
 .listed-heights-od {
@@ -84,4 +89,54 @@ label{
 
 .searched-players:hover{
     cursor:pointer;
+}
+
+.player-info-btn{
+    grid-area: player-info;
+    white-space: nowrap;
+}
+
+
+@media only screen and (min-width: 600px) {
+    .grid {
+        display: grid;
+        grid-template-columns: auto auto;
+        grid-template-rows: 200px 100px 70px auto;
+        grid-template-areas:
+        'search svg'
+        'search-result svg'
+        'search-result height'
+        'search-result player-info'
+    }
+
+
+    #player-main {
+        padding: 0 50px;
+        margin:0;
+        justify-content: center;
+        align-items:center;
+    }
+
+    .listed-heights-od {
+        align-items:baseline;
+    }
+    #player-search {
+        width: 80%;
+    }
+
+    #player-search-result{
+        font-size: 15px;
+        width: 80%;
+    }
+
+    .collection .collection-item {
+        padding:10px 20px;
+    }
+
+    .player-info-btn{
+        width:40%;
+        margin-left:auto;
+        margin-right:auto;
+
+    }
 }
