@@ -1,4 +1,4 @@
-# nba-player-api
+# nba-player-height-and-autocomplete-api
 App that provides a visual representation of an NBA player's height via svg animation and also containes extra info on the player.
 
 ## Features
