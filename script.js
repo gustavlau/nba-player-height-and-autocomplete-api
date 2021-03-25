@@ -73,10 +73,9 @@ let outputPlayerNames = searchedNames =>{
        
 
         const finalOutput=outputHtml.join(''); //uses the , as selector in the array to turn into string
-        console.log(searchedNames);
+        // console.log(searchedNames);
         
         document.querySelector("#player-search-result").innerHTML=finalOutput;
-        // let playerHeadshot = document.createElement('img');
             
         let playerVar=document.querySelectorAll(".searched-players");
         playerVar.forEach((ele,index)=>{ //adds event listeners to all the names in finalOutput            
@@ -84,12 +83,19 @@ let outputPlayerNames = searchedNames =>{
             ele.addEventListener(`click`,()=>{clickedNames(searchedNames[index])})
             
 
-            //Adds mouse over event listeners that add classes that allow player pictures. This prevents the continuous loading of every player's picture which can be very slow.
+            //Adds mouse over event listeners that add classes that allow player pictures. This prevents the continuous loading of every player's picture which can make the app very slow.
             ele.addEventListener('mouseenter', ()=>{
                 ele.classList.toggle('tooltipped')
                 ele.id="unique-player";
                 createTooltip(searchedNames[index].personId); //passes the hovered over players id info so proper image is displayed                
             });
+
+            ele.addEventListener('ontouchmove', ()=>{
+                ele.classList.toggle('tooltipped')
+                ele.id="unique-player";
+                createTooltip(searchedNames[index].personId); //passes the hovered over players id info so proper image is displayed                
+            });
+
             ele.addEventListener('mouseleave', ()=>{
                 ele.classList.toggle('tooltipped');
                 ele.removeAttribute('id');
@@ -111,7 +117,7 @@ function clickedNames (searchedNames){
 }
 
 
-//Function creates the player's tooltip element only when hovered over.
+//Function creates the player's tooltip headshot only when hovered over.
 function createTooltip(playerId){
     var elems = document.querySelectorAll('.tooltipped');
     var options={
@@ -127,7 +133,7 @@ function createTooltip(playerId){
 //Bolds the searched characters, regex makes it case insensitive and returns the original capitalization of the strings
 function boldSearch(str, search){
     let caseInsensitiveRegex = new RegExp("("+search+")", "gi");
-    return str.replace(caseInsensitiveRegex,"<b>$1</b>");``
+    return str.replace(caseInsensitiveRegex,'<b style="color:#424242">$1</b>');
 }
 
 
